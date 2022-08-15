@@ -39,6 +39,7 @@ class VVISF_EXPORT ISFScene : public VVGL::GLScene	{
 		double			_renderTimeDelta = 0.;	//	this is the render time delta (frame duration) which gets passed to the ISF
 		uint32_t		_passIndex = 1;	//	used to store the index of the rendered pass, which gets passed to the shader
 		std::string		*_compiledInputTypeString = nullptr;	//	a sequence of characters, either "2" or "R" or "C", one character for each input image. describes whether the shader was compiled to work with 2D textures or RECT textures or cube textures.
+        bool            _manualTime = false; // a flag to determine whether renderTimeDelta and renderFrameIndex should be updated manually.
 
 		//	access to these vars should be restricted by the '_renderLock' var inherited from GLScene
 		VVGL::GLCachedAttrib	_vertexAttrib = VVGL::GLCachedAttrib("VERTEXDATA");	//	caches the location of the attribute in the compiled GL program for the vertex input
@@ -101,6 +102,20 @@ class VVISF_EXPORT ISFScene : public VVGL::GLScene	{
 		void setPersistentToIOSurface(const bool & n) { _persistentToIOSurface=n; }
 		//!	Gets the receiver's _persistentToIOSurface flag.
 		bool persistentToIOSurface() { return _persistentToIOSurface; }
+        
+        //! Sets the receiver's _manualTime flag, which is false by default- if true, TIMEDELTA and FRAMEINDEX won't be updated unless setting them by setRenderTimeDelta() and setRenderTimeIndex.
+        void setManualTime(const bool & n) { _manualTime = n; }
+        //! Gets therreceiver's _manualTime flag.
+        bool manualTime() { return _manualTime; }
+        //! Sets FRAMEINDEX manually. To enable this, call setManualTime(true).
+        void setRenderFrameIndex(uint32_t inFrame) {
+            _renderFrameIndex = inFrame;
+        }
+        //! Sets TIMEDELTA manually. To enable this, call setManualTime(true).
+        void setRenderTimeDelta(double inDelta) {
+            _renderTimeDelta = inDelta;
+        }
+    
 		
 		///@}
 		

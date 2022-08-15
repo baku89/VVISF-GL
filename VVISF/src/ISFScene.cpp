@@ -1200,7 +1200,9 @@ void ISFScene::_render(const GLBufferRef & inTargetBuffer, const VVGL::Size & in
 		
 		//	update the render size and time vars
 		_renderSize = inSize;
-		_renderTimeDelta = (inTime<=0.) ? 0. : fabs(inTime-_renderTime);
+        if (!_manualTime)   {
+            _renderTimeDelta = (inTime<=0.) ? 0. : fabs(inTime-_renderTime);
+        }
 		_renderTime = inTime;
 		
 		//	get the buffer pool we're going to use to generate the buffers
@@ -1327,7 +1329,9 @@ void ISFScene::_render(const GLBufferRef & inTargetBuffer, const VVGL::Size & in
 		}
 		
 		//	increment the rendered frame index!
-		++_renderFrameIndex;
+        if (!_manualTime)   {
+            ++_renderFrameIndex;
+        }
 		
 		//	if there's a pass dict...
 		if (outPassDict != nullptr)	{
