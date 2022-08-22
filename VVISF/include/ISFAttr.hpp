@@ -11,7 +11,12 @@
 
 namespace VVISF	{
 
-
+enum ISFValUnit {
+    ISFValUnit_Default = 0,
+    ISFValUnit_Length,
+    ISFValUnit_Percent,
+    ISFValUnit_Angle
+};
 
 
 /*!
@@ -25,6 +30,7 @@ class VVISF_EXPORT ISFAttr	{
 		std::string			_label;
 		
 		ISFValType			_type = ISFValType_None;
+		ISFValUnit			_unit = ISFValUnit_Default;
 		ISFVal				_currentVal = ISFNullVal();
 		ISFVal				_minVal = ISFNullVal();	//	if it's an audio/audiofft, it's a long-type val.  otherwise, null or an ISFVal subclass of the appropriate type
 		ISFVal				_maxVal = ISFNullVal();	//	if it's an audio/audiofft, it's a long-type val.  otherwise, null or an ISFVal subclass of the appropriate type
@@ -75,6 +81,9 @@ class VVISF_EXPORT ISFAttr	{
 		inline std::string & label() const { return const_cast<std::string&>(_label); }
 		//!	Returns the attribute's value type.
 		inline ISFValType & type() const { return const_cast<ISFValType&>(_type); }
+		//! Returns the attribute's unit type.
+		inline ISFValUnit & unit() const { return const_cast<ISFValUnit&>(_unit); }
+		inline void setUnit(const ISFValUnit & n) { _unit = n; }
 		//!	Returns the attribute's current value.
 		inline ISFVal & currentVal() { return _currentVal; }
 		//!	Sets the attribute's current value.

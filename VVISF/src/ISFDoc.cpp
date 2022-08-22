@@ -1729,6 +1729,7 @@ void ISFDoc::_initWithRawFragShaderString(const string & inRawFile)	{
 	auto			inputsArray = (caughtJSONException) ? json() : jblob.value("INPUTS",json());
 	if (inputsArray != nullptr && inputsArray.type()==json::value_t::array)	{
 		ISFValType			newAttribType = ISFValType_None;
+		ISFValUnit			unit = ISFValUnit_Default;
 		ISFVal				minVal = ISFNullVal();
 		ISFVal				maxVal = ISFNullVal();
 		ISFVal				defVal = ISFNullVal();
@@ -1761,6 +1762,7 @@ void ISFDoc::_initWithRawFragShaderString(const string & inRawFile)	{
 			
 			//	clear some state vars
 			newAttribType = ISFValType_None;
+			unit = ISFValUnit_Default;
 			minVal = ISFNullVal();
 			maxVal = ISFNullVal();
 			defVal = ISFNullVal();
@@ -1824,6 +1826,17 @@ void ISFDoc::_initWithRawFragShaderString(const string & inRawFile)	{
 				tmpObj = inputDict.value("IDENTITY",json());
 				if (tmpObj.is_number())
 					idenVal = ISFFloatVal(tmpObj.get<double>());
+				tmpObj = inputDict.value("UNIT",json());
+				if (tmpObj.is_string()) {
+					string unitStr  = tmpObj.get<string>();
+					if (unitStr == "length") {
+						unit = ISFValUnit_Length;
+					} else if (unitStr == "percent") {
+						unit = ISFValUnit_Percent;
+					} else if (unitStr == "angle") {
+						unit = ISFValUnit_Angle;
+					}
+				}
 				
 				//	if i'm missing a min or a max val, reset both
 				if ((minVal.isNullVal() && !maxVal.isNullVal())	||
@@ -2077,6 +2090,7 @@ void ISFDoc::_initWithRawFragShaderString(const string & inRawFile)	{
 				idenVal,
 				&labelArray,
 				&valArray);
+			newAttribRef->setUnit(unit);
 			newAttribRef->setIsFilterInputImage(isFilterImageInput);
 			newAttribRef->setIsTransStartImage(isTransStartImageInput);
 			newAttribRef->setIsTransEndImage(isTransEndImageInput);
