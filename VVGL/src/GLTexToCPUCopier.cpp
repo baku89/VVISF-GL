@@ -241,7 +241,11 @@ GLBufferRef GLTexToCPUCopier::downloadTexToCPU(const GLBufferRef & inTexBuffer, 
 		}
 		break;
 	case GLBuffer::PF_BGRA:
-		inPBOBuffer = CreateBGRAPBO(GLBuffer::Target_PBOPack, GL_DYNAMIC_READ, inTexBuffer->size, nullptr, createInCurrentContext, bp);
+        if (inTexBuffer->desc.pixelType == GLBuffer::PT_Float) {
+            inPBOBuffer = CreateBGRAFloatPBO(GLBuffer::Target_PBOPack, GL_DYNAMIC_READ, inTexBuffer->size, nullptr, createInCurrentContext, bp);
+        } else {
+            inPBOBuffer = CreateBGRAPBO(GLBuffer::Target_PBOPack, GL_DYNAMIC_READ, inTexBuffer->size, nullptr, createInCurrentContext, bp);
+        }
 		break;
 	case GLBuffer::PF_YCbCr_422:
 		inPBOBuffer = CreateYCbCrPBO(GLBuffer::Target_PBOPack, GL_DYNAMIC_READ, inTexBuffer->size, nullptr, createInCurrentContext, bp);
@@ -306,7 +310,11 @@ GLBufferRef GLTexToCPUCopier::streamTexToCPU(const GLBufferRef & inTexBuffer, co
 			}
 			break;
 		case GLBuffer::PF_BGRA:
-			inPBOBuffer = CreateBGRAPBO(GLBuffer::Target_PBOPack, GL_DYNAMIC_READ, texBufferDims, nullptr, createInCurrentContext, bp);
+			if (inTexBuffer->desc.pixelType == GLBuffer::PT_Float) {
+				inPBOBuffer = CreateBGRAFloatPBO(GLBuffer::Target_PBOPack, GL_DYNAMIC_READ, texBufferDims, nullptr, createInCurrentContext, bp);
+			} else {
+				inPBOBuffer = CreateBGRAPBO(GLBuffer::Target_PBOPack, GL_DYNAMIC_READ, texBufferDims, nullptr, createInCurrentContext, bp);
+			}
 			break;
 		case GLBuffer::PF_YCbCr_422:
 			inPBOBuffer = CreateYCbCrPBO(GLBuffer::Target_PBOPack, GL_DYNAMIC_READ, texBufferDims, nullptr, createInCurrentContext, bp);
