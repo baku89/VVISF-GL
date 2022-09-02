@@ -34,6 +34,8 @@ class VVISF_EXPORT ISFAttr	{
 		ISFVal				_currentVal = ISFNullVal();
 		ISFVal				_minVal = ISFNullVal();	//	if it's an audio/audiofft, it's a long-type val.  otherwise, null or an ISFVal subclass of the appropriate type
 		ISFVal				_maxVal = ISFNullVal();	//	if it's an audio/audiofft, it's a long-type val.  otherwise, null or an ISFVal subclass of the appropriate type
+		bool					_clampMin = false;
+		bool					_clampMax = false;
 		ISFVal				_defaultVal = ISFNullVal();
 		ISFVal				_identityVal = ISFNullVal();
 		std::vector<std::string>	_labelArray;	//	only used if it's a LONG. std::vector containing strings that correspond to the values in "_valArray"
@@ -84,6 +86,12 @@ class VVISF_EXPORT ISFAttr	{
 		//! Returns the attribute's unit type.
 		inline ISFValUnit & unit() const { return const_cast<ISFValUnit&>(_unit); }
 		inline void setUnit(const ISFValUnit & n) { _unit = n; }
+		//! Returns the attribute's clampMin setting.
+		inline bool & clampMin() const { return const_cast<bool&>(_clampMin); }
+		inline void setClampMin(const bool & n) { _clampMin = n; }
+		//! Returns the attribute's clampMax setting.
+		inline bool & clampMax() const { return const_cast<bool&>(_clampMax); }
+		inline void setClampMax(const bool & n) { _clampMax = n; }
 		//!	Returns the attribute's current value.
 		inline ISFVal & currentVal() { return _currentVal; }
 		//!	Sets the attribute's current value.
