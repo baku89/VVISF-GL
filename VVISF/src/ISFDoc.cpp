@@ -1805,6 +1805,8 @@ void ISFDoc::_initWithRawFragShaderString(const string& inRawFile) {
             unit = ISFValUnit_Percent;
           } else if (unitStr == "angle") {
             unit = ISFValUnit_Angle;
+          } else if (unitStr == "direction") {
+            unit = ISFValUnit_Direction;
           }
         }
 

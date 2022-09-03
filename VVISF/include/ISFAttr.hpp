@@ -12,10 +12,11 @@
 namespace VVISF	{
 
 enum ISFValUnit {
-    ISFValUnit_Default = 0,
-    ISFValUnit_Length,
-    ISFValUnit_Percent,
-    ISFValUnit_Angle
+		ISFValUnit_Default = 0,
+		ISFValUnit_Length,
+		ISFValUnit_Percent,
+		ISFValUnit_Angle,
+		ISFValUnit_Direction,
 };
 
 
